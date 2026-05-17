@@ -50,5 +50,26 @@ resource "azurerm_virtual_network_peering" "app_to_hub" {
   allow_virtual_network_access = true
 }
 
+
+# Route table testing
+
+resource "azurerm_route_table" "app_routes" {
+  name                = "rt-app-spoke"
+  location            = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
+}
+
+resource "azurerm_route" "default_route" {
+  name                   = "default-to-firewall"
+  resource_group_name    = azurerm_resource_group.main.name
+  route_table_name       = azurerm_route_table.app_routes.name
+  address_prefix         = "0.0.0.0/0"
+  next_hop_type          = "VirtualAppliance"
+
+  # temporary firewall IP during testing
+  next_hop_in_ip_address = "10.0.1.4"
+}
+
+# Need to validate asymmetric routing after UDR changes
 # TODO:
 # Need to test gateway transit after VPN deployment

@@ -1,10 +1,13 @@
-
 import json
 
-# simple route validation script for testing
+# basic route validation script
+# mainly used during route table testing
 
 with open("routes.json", "r") as f:
     routes = json.load(f)
+
+print("Checking routes")
+print("----------------")
 
 for route in routes:
 
@@ -13,4 +16,8 @@ for route in routes:
 
     print(f"{prefix} -> {next_hop}")
 
-print("Route validation completed")
+    if next_hop == "Internet":
+        print("Warning: internet route detected")
+
+print("----------------")
+print("Validation completed")

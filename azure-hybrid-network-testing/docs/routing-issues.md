@@ -24,3 +24,16 @@ Missing return route from on-prem firewall.
 DNS resolution inconsistent between spokes.
 
 Still investigating if issue related to custom DNS forwarding delays.
+
+
+---
+
+## Issue 4
+After adding UDR for forced tunneling, app subnet lost internet access.
+
+Need to verify:
+- return routing
+- firewall outbound rules
+- SNAT handling
+
+Possibly related to missing outbound rule on firewall policy.
