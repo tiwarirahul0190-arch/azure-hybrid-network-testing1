@@ -50,6 +50,18 @@ resource "azurerm_virtual_network_peering" "app_to_hub" {
   allow_virtual_network_access = true
 }
 
+resource "azurerm_network_security_group" "app_nsg" {
+  name                = "nsg-app-subnet"
+  location            = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
+}
+
+resource "azurerm_subnet_network_security_group_association" "app_assoc" {
+  subnet_id                 = azurerm_subnet.app_subnet.id
+  network_security_group_id = azurerm_network_security_group.app_nsg.id
+}
+
+# Need to add separate inbound rules after application testing
 
 # Route table testing
 
@@ -70,6 +82,4 @@ resource "azurerm_route" "default_route" {
   next_hop_in_ip_address = "10.0.1.4"
 }
 
-# Need to validate asymmetric routing after UDR changes
-# TODO:
-# Need to test gateway transit after VPN deployment
+

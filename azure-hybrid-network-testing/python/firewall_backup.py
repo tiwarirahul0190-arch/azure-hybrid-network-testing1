@@ -26,11 +26,12 @@ try:
         with open(file_name, "wb") as f:
             f.write(response.content)
 
-        print("Backup completed")
+        print("Backup completed successfully")
+        print(f"Saved backup from {FIREWALL_IP}")
         print(file_name)
 
     else:
-        print("Backup failed")
+        print("Backup request failed")
         print(response.status_code)
 
 except Exception as err:

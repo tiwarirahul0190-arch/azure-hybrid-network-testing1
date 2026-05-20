@@ -18,3 +18,11 @@ variable "spoke_app_cidr" {
 variable "spoke_db_cidr" {
   default = "10.2.0.0/16"
 }
+
+variable "firewall_private_ip" {
+  default = "10.0.1.4"
+}
+
+variable "vpn_gateway_sku" {
+  default = "VpnGw1"
+}
