@@ -19,5 +19,9 @@ for route in routes:
     if next_hop == "Internet":
         print("Warning: internet route detected")
 
-print("----------------")
-print("Validation completed")
+if len(routes) == 0:
+    print("no routes found")
+
+print("---------------------")
+print(f"Validated total routes: {len(routes)}")
+print ("validation compelted")

@@ -50,6 +50,15 @@ resource "azurerm_virtual_network_peering" "app_to_hub" {
   allow_virtual_network_access = true
 }
 
+resource "azurerm_subnet" "app_subnet" {
+  name                 = "app-subnet"
+  resource_group_name  = azurerm_resource_group.main.name
+  virtual_network_name = azurerm_virtual_network.spoke_app.name
+  address_prefixes     = ["10.1.1.0/24"]
+}
+
+# UDR currently applied only to app subnet during testing
+
 resource "azurerm_network_security_group" "app_nsg" {
   name                = "nsg-app-subnet"
   location            = azurerm_resource_group.main.location
@@ -79,7 +88,20 @@ resource "azurerm_route" "default_route" {
   next_hop_type          = "VirtualAppliance"
 
   # temporary firewall IP during testing
-  next_hop_in_ip_address = "10.0.1.4"
+  next_hop_in_ip_address = var.firewall_private_ip
 }
 
+resource "azurerm_subnet" "db_subnet" {
+  name                 = "db-subnet"
+  resource_group_name  = azurerm_resource_group.main.name
+  virtual_network_name = azurerm_virtual_network.spoke_db.name
+  address_prefixes     = ["10.2.1.0/24"]
+}
 
+# Temporary subnet sizing for testing only
+# May need to resize after additional workloads added
+
+resource "azurerm_subnet_route_table_association" "app_route_assoc" {
+  subnet_id      = azurerm_subnet.app_subnet.id
+  route_table_id = azurerm_route_table.app_routes.id
+}
