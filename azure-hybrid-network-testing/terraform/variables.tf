@@ -26,3 +26,7 @@ variable "firewall_private_ip" {
 variable "vpn_gateway_sku" {
   default = "VpnGw1"
 }
+
+variable "storage_account_name" {
+  default = "sthybridtesting001"
+}

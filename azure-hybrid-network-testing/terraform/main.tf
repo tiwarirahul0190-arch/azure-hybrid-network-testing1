@@ -105,3 +105,21 @@ resource "azurerm_subnet_route_table_association" "app_route_assoc" {
   subnet_id      = azurerm_subnet.app_subnet.id
   route_table_id = azurerm_route_table.app_routes.id
 }
+
+
+# Storage account testing
+# Planning to use this for Terraform remote stae later
+
+resource "azurerm_storage_account" "tfstate" {
+  name                     = var.storage_account_name
+  resource_group_name      = azurerm_resource_group.main.name
+  location                 = azurerm_resource_group.main.location
+
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
+
+  tags = {
+    environment = "testing"
+    owner       = "network-team"
+  }
+}

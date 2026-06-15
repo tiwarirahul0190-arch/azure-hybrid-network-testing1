@@ -80,3 +80,7 @@ Still testing this behavior.
 - GitHub Actions
 - Multi-region failover
 - Private DNS zones
+- Terraform remote state testing
+- Storage account access validation
+
+
